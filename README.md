@@ -24,6 +24,12 @@ Use:
 drone-plugin-chronosphere-change-events
 ```
 
+Usage help:
+
+```bash
+drone-plugin-chronosphere-change-events --help
+```
+
 
 ### In Docker container
 
