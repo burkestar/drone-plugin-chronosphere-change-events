@@ -10,7 +10,7 @@ type Context struct {
 }
 
 type PublishCmd struct {
-	Category string `arg:"" name:"category" help:"Event category." env:"PLUGIN_CATEGORY"`
+	Category string `arg:"" name:"category" help:"Event category." env:"PLUGIN_CATEGORY" enum:"alerts,broadcasts,chronosphere,deploys,feature_flags,infrastructure,third_party"`
 }
 func (p *PublishCmd) Run(ctx *Context) error {
 	fmt.Println("Publishing event with category", p.Category)
