@@ -3,4 +3,4 @@ build:
 
 publish:
 	docker push burkestar/drone-plugin-chronosphere-change-events
-	GOPROXY=proxy.golang.org go list -m burkestar/drone-plugin-chronosphere-change-events@v0.0.1
+	GOPROXY=proxy.golang.org go list -m "github.com/burkestar/drone-plugin-chronosphere-change-events@v0.0.1"
