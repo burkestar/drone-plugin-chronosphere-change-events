@@ -16,6 +16,9 @@ func (p *PublishCmd) Run(ctx *Context) error {
 	fmt.Println("Publishing event with category", p.Category)
 	return nil
 }
+func (p *PublishCmd) Validate() error {
+	return nil
+}
 
 
 var CLI struct {
