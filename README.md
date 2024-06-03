@@ -103,12 +103,12 @@ steps:
       connectorRef: account.harnessImage ## Docker connector to pull the plugin's Docker image
       image: burkestar/drone-plugin-chronosphere-change-events
       settings:
-    chronosphere_events_api: <+variable.org.chronosphere_events_api>
-    chronosphere_api_token: <+secrets.getValue("org.chronosphere_api_token")>
-    category: deploys
-    type: deploy_test
-    source: drone
-    labels: "environment=dev;cluster=dev-cluster"
+        chronosphere_events_api: <+variable.org.chronosphere_events_api>
+        chronosphere_api_token: <+secrets.getValue("org.chronosphere_api_token")>
+        category: deploys
+        type: deploy_test
+        source: drone
+        labels: "environment=dev;cluster=dev-cluster"
 ```
 
 
