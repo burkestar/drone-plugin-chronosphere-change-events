@@ -18,17 +18,26 @@ Install:
 go install
 ```
 
-Use:
-
-```bash
-drone-plugin-chronosphere-change-events
-```
-
 Usage help:
 
 ```bash
 drone-plugin-chronosphere-change-events --help
+
+drone-plugin-chronosphere-change-events publish--help
 ```
+
+Publishing a deploy event:
+
+```bash
+drone-plugin-chronosphere-change-events publish --category deploys --type deploy_test --source local --labels 'environment=local;cluster=none'
+```
+
+Troubleshooting with `--dry-run` (skips API call) and `--debug` (outputs diagnostics to the console):
+
+```bash
+drone-plugin-chronosphere-change-events --dry-run --debug publish --category deploys --type deploy_test --source local --labels 'environment=local;cluster=none'
+```
+
 
 
 ### In Docker container

@@ -10,6 +10,7 @@ import (
 
 type Context struct {
 	Debug bool
+	DryRun bool
 }
 
 type PublishCmd struct {
@@ -20,7 +21,7 @@ type PublishCmd struct {
 	Title string `name:"title" help:"Title for this event. If not provided, one will be constructed dynamically from other fields" env:"TITLE,PLUGIN_TITLE"`
 	Source string `name:"source" default:"unknown" help:"Source where this event comes from." env:"SOURCE,PLUGIN_SOURCE"`
 	// HappenedAt string `name:"happened_at" default:"" help:"Timestamp when event happened, e.g. 2024-06-03T12:42:00Z" env:"HAPPENED_AT,PLUGIN_HAPPENED_AT"`
-	// Labels as key=value, comma separated
+	Labels map[string]string `name:"labels" help:"Labels to set on the event, e.g. --labels key1=value1;key2=value2" env:"LABELS,PLUGIN_LABELS"`
 }
 
 type PublishEvent struct {
@@ -47,6 +48,9 @@ func (p *PublishCmd) Run(ctx *Context) error {
 	if p.Title == "" {
 		p.Title = fmt.Sprintf("%s (%s) from %s", p.Type, p.Category, p.Source)
 	}
+	if p.Labels == nil {
+		p.Labels = map[string]string {}
+	}
 
 	payload := PublishEventPayload{
 		PublishEvent{
@@ -54,7 +58,7 @@ func (p *PublishCmd) Run(ctx *Context) error {
 			Category: p.Category,
 			Type: p.Type,
 			// HappenedAt: p.HappenedAt,
-			Labels: map[string]string{},
+			Labels: p.Labels,
 			PayloadJson: "",
 			Source: p.Source,
 		},
@@ -64,6 +68,12 @@ func (p *PublishCmd) Run(ctx *Context) error {
 
 	if err != nil {
 		panic(err)
+	}
+
+	if ctx.DryRun {
+		fmt.Println("Dry Run does not actually publish events.")
+		fmt.Println("JSON", string(jsonStr))
+		return nil
 	}
 
 	req, err := http.NewRequest("POST", p.ChronosphereEventsAPI, bytes.NewBuffer(jsonStr))
@@ -92,12 +102,13 @@ func (p *PublishCmd) Validate() error {
 
 var CLI struct {
 	Debug bool `help:"Enable debug mode."`
+	DryRun bool `help:"Dry run mode skips actually publishing the event."`
 
 	Publish PublishCmd `cmd:"" help:"Publish change event."`
 }
 
 func main() {
 	ctx := kong.Parse(&CLI)
-	err := ctx.Run(&Context{Debug: CLI.Debug})
+	err := ctx.Run(&Context{Debug: CLI.Debug, DryRun: CLI.DryRun})
 	ctx.FatalIfErrorf(err)
 }
