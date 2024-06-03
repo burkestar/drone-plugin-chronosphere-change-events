@@ -1,4 +1,4 @@
-FROM golang:1.18-bullseye as base
+FROM golang:1.22.3-bullseye as base
 # Distroless based on https://klotzandrew.com/blog/smallest-golang-docker-image
 # Debian Bullseye is used as the build container, with the runtime container based on scratch
 # with the compiled binary copied inside.
