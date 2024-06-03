@@ -33,4 +33,4 @@ COPY --from=base /main .
 
 USER drone-plugin-user:drone-plugin-user
 
-ENTRYPOINT ["./main", "publish"]
+ENTRYPOINT ["/main", "publish"]
