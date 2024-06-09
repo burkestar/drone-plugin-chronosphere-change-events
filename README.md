@@ -114,6 +114,12 @@ steps:
 
 ## Development
 
+Build the image:
+
+```bash
+make build
+```
+
 Tag the release:
 
 ```bash

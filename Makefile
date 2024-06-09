@@ -1,4 +1,5 @@
 build:
+	go install
 	docker build -t burkestar/drone-plugin-chronosphere-change-events .
 
 publish:
