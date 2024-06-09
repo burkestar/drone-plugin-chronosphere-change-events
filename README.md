@@ -114,7 +114,16 @@ steps:
 
 ## Development
 
-Publish image to Docker Hub:
+Tag the release:
+
+```bash
+git tag v0.0.2
+git push --tags
+```
+
+Update `Makefile` to set the tag reference: (e.g. `github.com/burkestar/drone-plugin-chronosphere-change-events@v0.0.2`)
+
+Build and publish the Docker image and go package:
 
 ```bash
 make publish
