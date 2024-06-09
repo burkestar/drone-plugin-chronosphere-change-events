@@ -17,7 +17,7 @@ type PublishCmd struct {
 	ChronosphereEventsAPI string `required:"" name:"chronosphere_events_api" help:"URL for Chronosphere Events API like https://ADDRESS.chronosphere.io/api/v1/data/events" env:"CHRONOSPHERE_EVENTS_API,PLUGIN_CHRONOSPHERE_EVENTS_API"`
 	ChronosphereApiToken string `required:"" name:"chronosphere_api_token" help:"API token for Chronosphere" env:"CHRONOSPHERE_API_TOKEN,PLUGIN_CHRONOSPHERE_API_TOKEN"`
 	Category string `required:"" name:"category" help:"Event category." env:"CATEGORY,PLUGIN_CATEGORY" enum:"alerts,broadcasts,chronosphere,deploys,feature_flags,infrastructure,third_party"`
-	Type string `required:"" name:"type" help:"Event type, which can be any custom value." env:"TYPE,PLUGIN_TYPE"`
+	EventType string `required:"" name:"event_type" help:"Event type, which can be any custom value." env:"EVENT_TYPE,PLUGIN_EVENT_TYPE"`
 	Title string `name:"title" help:"Title for this event. If not provided, one will be constructed dynamically from other fields" env:"TITLE,PLUGIN_TITLE"`
 	Source string `name:"source" default:"unknown" help:"Source where this event comes from." env:"SOURCE,PLUGIN_SOURCE"`
 	// HappenedAt string `name:"happened_at" default:"" help:"Timestamp when event happened, e.g. 2024-06-03T12:42:00Z" env:"HAPPENED_AT,PLUGIN_HAPPENED_AT"`
@@ -27,7 +27,7 @@ type PublishCmd struct {
 type PublishEvent struct {
 	Title string `json:"title"`
 	Category string `json:"category"`
-	Type string `json:"type"`
+	EventType string `json:"type"`
 	// HappenedAt string `json:"happened_at"`
 	Labels map[string]string `json:"labels"`
 	PayloadJson string `json:"payload_json"`
@@ -46,7 +46,7 @@ func (p *PublishCmd) Run(ctx *Context) error {
 	}
 
 	if p.Title == "" {
-		p.Title = fmt.Sprintf("%s (%s) from %s", p.Type, p.Category, p.Source)
+		p.Title = fmt.Sprintf("%s (%s) from %s", p.EventType, p.Category, p.Source)
 	}
 	if p.Labels == nil {
 		p.Labels = map[string]string {}
@@ -56,7 +56,7 @@ func (p *PublishCmd) Run(ctx *Context) error {
 		PublishEvent{
 			Title: p.Title,
 			Category: p.Category,
-			Type: p.Type,
+			EventType: p.EventType,
 			// HappenedAt: p.HappenedAt,
 			Labels: p.Labels,
 			PayloadJson: "",
